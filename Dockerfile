@@ -68,4 +68,4 @@ RUN cd discourse && bundle install --deployment --without test
 RUN cd discourse/config && cp database.yml.production-sample database.yml
 RUN cd discourse/config && cp redis.yml.sample redis.yml
 RUN cd discourse/config && cp environments/production.rb.sample environments/production.rb
-RUN cd discourse/config && cp discourse.pill.sample discourse.pill
+# RUN cd discourse/config && cp discourse.pill.sample discourse.pill
