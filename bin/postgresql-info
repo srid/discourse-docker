@@ -6,5 +6,8 @@ ID=$(sudo docker ps | grep srid/postgresql:9.1 | awk '{print $1}')
 IPADDR=$(sudo docker inspect $ID | grep IPAddress | awk '{print $2}' | tr -d ',"')
 PORT=$(sudo docker port $ID 5432)
 
+export POSTGRES_HOST=$IPADDR
+export POSTGRES_PORT=$PORT
+
 echo "# password: postgres"
 echo "psql -p 5432 -U root -W -h $IPADDR -d postgres"

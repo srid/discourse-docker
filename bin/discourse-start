@@ -1,5 +1,13 @@
 #!/bin/bash
 
+set -xe
+
 REDIS_PROVIDER_URL=$(bin/redis-info)
 
-sudo docker run -e REDIS_PROVIDER_URL=$REDIS_PROVIDER_URL srid/discourse /discourse/init.sh "bundle exec rake db:create"
+# This sources POSTGRES_* env vars.
+source bin/postgresql-info
+
+echo $POSTGRES_HOST
+echo $POSTGRES_PORT
+
+sudo docker run -e REDIS_PROVIDER_URL=$REDIS_PROVIDER_URL -e POSTGRES_HOST=$POSTGRES_HOST -e POSTGRES_PORT=$POSTGRES_PORT srid/discourse /discourse/init.sh "bundle exec rake db:create"
