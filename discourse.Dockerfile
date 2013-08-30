@@ -1,3 +1,7 @@
+# -*- sh -*-
+
+# Base image for all Discourse related processes.
+
 FROM ubuntu:12.04
 MAINTAINER srid
 
@@ -27,15 +31,8 @@ RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt
 RUN apt-get -qy update
 RUN apt-get -qy install build-essential libssl-dev libyaml-dev git libtool libxslt-dev libxml2-dev libpq-dev gawk curl pngcrush python-software-properties
 
-# redis
-RUN apt-add-repository -y ppa:rwky/redis
-RUN apt-get update
-RUN apt-get -qy install redis-server
-
-# postgresql
-RUN apt-get -qy install postgresql-9.1 postgresql-contrib-9.1
-
 # nginx
+# TODO: move to different container?
 RUN apt-get remove '^nginx.*$'
 
 RUN echo "deb http://nginx.org/packages/ubuntu/ precise nginx" >> /etc/apt/sources.list

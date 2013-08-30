@@ -1,0 +1,8 @@
+# -*- sh -*-
+
+FROM ubuntu:12.04
+
+RUN apt-get -qy install python-software-properties
+RUN apt-add-repository -y ppa:rwky/redis
+RUN apt-get update
+RUN apt-get -qy install redis-server
