@@ -12,7 +12,6 @@ RUN apt-get -qy install git
 # Get discourse stable tag
 RUN git clone --depth 1 https://github.com/discourse/discourse.git
 RUN cd discourse && git checkout v0.9.6.1
-RUN rm -rf discourse/.git
 
 # https://bugs.launchpad.net/ubuntu/+source/lxc/+bug/813398
 RUN apt-get -qy install language-pack-en 
