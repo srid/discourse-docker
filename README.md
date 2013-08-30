@@ -1,7 +1,22 @@
 discourse-docker
 ================
 
-Dockerize [Discourse](http://discourse.org/).
+Dockerize [Discourse](http://discourse.org/). This is work in
+progress.
+
+Approach
+--------
+
+There will be multiple docker images, roughly one for:
+
+* Discourse image
+* postgresql image
+* redis image
+
+The discourse image will be run multiple times, one for web process,
+some more for workers (email, etc.). 
+
+This is not finalized yet.
 
 Whiteboard
 ----------
