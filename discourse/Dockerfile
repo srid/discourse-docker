@@ -67,5 +67,11 @@ RUN cd discourse/config && cp environments/production.rb.sample environments/pro
 # RUN cd discourse/config && cp discourse.pill.sample discourse.pill
 
 
+# `rake db:test:prepare` seems to require psql
+RUN apt-get -qy install postgresql-client-9.1
+
+ENV RAILS_ENV production
+
 ADD	. /discourse
 RUN	chmod +x /discourse/init.sh
+EXPOSE :3000

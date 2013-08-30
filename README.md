@@ -39,5 +39,5 @@ https://github.com/srid/notes/blob/master/discourse-on-ubuntu.md
 TODO
 ----
 
-* Get a MVP working
-* Email
+* postgresql data dir -- docker data volumes
+* web server/ nginx

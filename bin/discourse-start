@@ -10,7 +10,10 @@ source bin/postgresql-info
 echo $POSTGRES_HOST
 echo $POSTGRES_PORT
 
-sudo docker run -e RAILS_ENV=production -e REDIS_PROVIDER_URL=$REDIS_PROVIDER_URL -e POSTGRES_HOST=$POSTGRES_HOST -e POSTGRES_PORT=$POSTGRES_PORT \
+START_DISCOURSE="sudo docker run -e REDIS_PROVIDER_URL=$REDIS_PROVIDER_URL -e POSTGRES_HOST=$POSTGRES_HOST -e POSTGRES_PORT=$POSTGRES_PORT \
+     -v $(pwd)/data/assets:/discourse/public/assets \
      srid/discourse \
-     /discourse/init.sh \
-     "bundle exec rake db:migrate"
+     /discourse/init.sh "
+
+# $START_DISCOURSE "bundle exec rake db:create db:migrate"
+$START_DISCOURSE "bundle exec rake assets:precompile && bundle exec rails s"
