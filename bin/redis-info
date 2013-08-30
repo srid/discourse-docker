@@ -1,0 +1,10 @@
+#!/bin/bash
+# Display $REDIS_URL for running srid/redis
+
+ID=$(sudo docker ps | grep srid/redis:2.6 | awk '{print $1}')
+
+IPADDR=$(sudo docker inspect $ID | grep IPAddress | awk '{print $2}' | tr -d ',"')
+PORT=$(sudo docker port $ID 6379)
+
+# echo "# password: ..."
+echo "redis://user@$IPADDR:$PORT"

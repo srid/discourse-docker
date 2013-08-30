@@ -1,0 +1,5 @@
+#!/bin/bash
+
+REDIS_PROVIDER_URL=$(bin/redis-info)
+
+sudo docker run -e REDIS_PROVIDER_URL=$REDIS_PROVIDER_URL srid/discourse /discourse/init.sh "bundle exec rake db:create"

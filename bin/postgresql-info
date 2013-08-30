@@ -1,0 +1,10 @@
+#!/bin/bash
+# Display psql command line to connect to running postgres
+
+ID=$(sudo docker ps | grep srid/postgresql:9.1 | awk '{print $1}')
+
+IPADDR=$(sudo docker inspect $ID | grep IPAddress | awk '{print $2}' | tr -d ',"')
+PORT=$(sudo docker port $ID 5432)
+
+echo "# password: postgres"
+echo "psql -p 5432 -U root -W -h $IPADDR -d postgres"
