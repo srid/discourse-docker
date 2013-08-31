@@ -11,9 +11,8 @@ echo $POSTGRES_HOST
 echo $POSTGRES_PORT
 
 START_DISCOURSE="sudo docker run -e REDIS_PROVIDER_URL=$REDIS_PROVIDER_URL -e POSTGRES_HOST=$POSTGRES_HOST -e POSTGRES_PORT=$POSTGRES_PORT \
-     -v $(pwd)/data/assets:/discourse/public/assets \
-     srid/discourse \
-     /start "
+     -v $(pwd)/data/discourse-public:/discourse/public \
+     srid/discourse"
 
-# $START_DISCOURSE "bundle exec rake db:create db:migrate assets:precompile"
-$START_DISCOURSE "bundle exec rails s"
+# $START_DISCOURSE "/discourse/docker/setup.sh"
+$START_DISCOURSE /discourse/docker/start.sh 'bundle exec rails s'

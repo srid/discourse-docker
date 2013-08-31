@@ -39,4 +39,4 @@ https://github.com/srid/notes/blob/master/discourse-on-ubuntu.md
 TODO
 ----
 
-* web server/ nginx
+* initial test data

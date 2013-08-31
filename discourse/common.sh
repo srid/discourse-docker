@@ -1,8 +1,4 @@
 #!/bin/bash
-# Initialize Discourse configuration with docker-set environment
-# variables:
-#  $POSTGRES_HOST
-#  $POSTGRES_PORT
 
 set -xe
 
@@ -25,15 +21,6 @@ sed -i "s/production.localhost/discourse.example.com/" config/database.yml
 # http://stackoverflow.com/a/7529711
 sed -i "s/timeout: 5000/timeout: 5000\n  template: template0/" config/database.yml
 
-# Serve public/* from public/assets/* so nginx can directly access the
-# assets mount on host.
-# http://stackoverflow.com/questions/11021475
-echo "Moving public files to assets directory"
-rm -rf public/assets/javascripts
-mv public/*.* public/javascripts public/assets/
-cd public/assets && ln -s /discourse/public/assets assets && cd -
-
 echo "database.yml =>"
 cat /discourse/config/database.yml
 
-exec bash -c "$@"

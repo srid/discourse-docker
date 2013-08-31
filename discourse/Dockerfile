@@ -13,6 +13,9 @@ RUN apt-get -qy install git
 RUN git clone --depth 1 https://github.com/discourse/discourse.git
 RUN cd discourse && git checkout v0.9.6.1
 
+# We don't care about having .git on an ephemeral filesystem.
+RUN rm -rf .git
+
 # https://bugs.launchpad.net/ubuntu/+source/lxc/+bug/813398
 RUN apt-get -qy install language-pack-en 
 
@@ -72,6 +75,11 @@ RUN apt-get -qy install postgresql-client-9.1
 
 ENV RAILS_ENV production
 
-ADD	start /
-RUN	chmod +x /start
+# ./public will be a docker data-volume to be shared with nginx. Move
+# the original public folder out of the way, for now.
+RUN mv /discourse/public /discourse/public.oow
+
+ADD	. /discourse/docker/
+RUN	chmod +x /discourse/docker/*
+RUN     ls -l /discourse/
 EXPOSE :3000
