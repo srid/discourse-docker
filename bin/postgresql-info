@@ -10,4 +10,4 @@ export POSTGRES_HOST=$IPADDR
 export POSTGRES_PORT=$PORT
 
 echo "# password: postgres"
-echo "psql -p 5432 -U root -W -h $IPADDR -d postgres"
+echo "psql -p $PORT -U root -W -h $IPADDR -d postgres"

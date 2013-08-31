@@ -48,8 +48,7 @@ bin/sup start discourse sidekiq nginx
 make info
 
 # signup for an account, and make yourself an admin:
-bin/postgresql-info
-echo UPDATE users SET admin = true WHERE username = \'srid\'\; | PGPASSWORD=postgres psql -p 5432 -U root -h 172.17.0.12 -d postgres
+bin/make-admin myusername
 ```
 
 docker feature requests

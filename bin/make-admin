@@ -1,0 +1,23 @@
+#!/bin/bash
+# Make the given user an admin.
+
+set -e
+
+USERNAME=$1
+
+if [ -z "$USERNAME" ]; then
+    echo "No username specified."
+    exit 1
+fi
+
+ID=$(sudo docker ps | grep srid/postgresql:9.1 | awk '{print $1}')
+
+IPADDR=$(sudo docker inspect $ID | grep IPAddress | awk '{print $2}' | tr -d ',"')
+PORT=$(sudo docker port $ID 5432)
+
+export PGPASSWORD=postgres
+CMD="psql -p $PORT -U root -h $IPADDR -d postgres"
+
+set -x
+echo UPDATE users SET admin = true WHERE username = \'$USERNAME\'\; | $CMD
+
