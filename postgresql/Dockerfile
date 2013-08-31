@@ -9,8 +9,7 @@ EXPOSE :5432
 CMD /usr/bin/start-pgsql.sh postgres
 
 # prevent apt from starting postgres right after the installation
-RUN	echo "#!/bin/sh\nexit 101" > /usr/sbin/policy-rc.d; chmod +x
-              #/usr/sbin/policy-rc.d
+RUN	echo "#!/bin/sh\nexit 101" > /usr/sbin/policy-rc.d; chmod +x /usr/sbin/policy-rc.d
 
 # https://bugs.launchpad.net/ubuntu/+source/lxc/+bug/813398
 RUN apt-get -qy install language-pack-en 

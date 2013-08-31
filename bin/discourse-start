@@ -15,5 +15,5 @@ START_DISCOURSE="sudo docker run -e REDIS_PROVIDER_URL=$REDIS_PROVIDER_URL -e PO
      srid/discourse \
      /discourse/init.sh "
 
-# $START_DISCOURSE "bundle exec rake db:create db:migrate"
-$START_DISCOURSE "bundle exec rake assets:precompile && bundle exec rails s"
+# $START_DISCOURSE "bundle exec rake db:create db:migrate assets:precompile"
+$START_DISCOURSE "bundle exec rails s"

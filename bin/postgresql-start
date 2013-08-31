@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -xe
+
+ID=$(sudo docker run -d -v $(pwd)/data/postgres:/var/lib/postgresql srid/postgresql:9.1)
+echo $ID
+sleep 1
+sudo docker logs $ID

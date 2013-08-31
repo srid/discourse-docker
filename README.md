@@ -39,5 +39,4 @@ https://github.com/srid/notes/blob/master/discourse-on-ubuntu.md
 TODO
 ----
 
-* postgresql data dir -- docker data volumes
 * web server/ nginx
