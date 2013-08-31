@@ -19,6 +19,6 @@ if [ -z "$1" ]; then
     $START_DISCOURSE /discourse/docker/start.sh 'bundle exec rails s'
 else
     echo "Setting up discourse"
-    # $START_DISCOURSE "/discourse/docker/setup.sh"
+    $START_DISCOURSE "/discourse/docker/setup.sh"
 fi
 
