@@ -7,3 +7,9 @@ all:
 
 ps:
 	sudo docker ps 
+
+supervisor:
+	sudo `which supervisord` -n -c etc/supervisord.conf
+
+info:
+	bin/nginx-info

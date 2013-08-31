@@ -18,34 +18,37 @@ TODO
 * setup email
 * parametrize scripts and document workflow
   * can i emulate -link before it is released?
-* process supervisor
 * global configuration, and arbitrary run command, for migrating my other forum.
 
 Usage
 -----
 
 ```bash
+# install supervisor
+sudo apt-get install python-pip
+sudo pip install supervisor
+
 # create docker images
 make
 
-# spawn redis, postgres
-sudo docker run -d srid/redis:2.6
-bin/postgresql-start
+# start supervisor (on separate terminal)
+make supervisor
+
+# check that redis and postgres are running.
+# bin/sup is alias to supervisorctl, with sudo.
+bin/sup status  
 
 # setup discourse db and assets
 bin/discourse-start setup
 
-# start discourse (separate terminal)
-bin/discourse-start 
+# start discourse, sidekiq and nginx
+bin/sup start discourse sidekiq nginx
 
 # start discourse workers (separate terminal)
 bin/discourse-start bundle exec sidekiq
 
-# start nginx front
-bin/nginx-start
-
 # view site
-bin/nginx-info
+make info
 
 # signup for an account, and make yourself an admin:
 bin/postgresql-info

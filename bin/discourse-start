@@ -15,13 +15,13 @@ START_DISCOURSE="sudo docker run -e REDIS_PROVIDER_URL=$REDIS_PROVIDER_URL -e PO
 
 if [ -z "$1" ]; then
     echo "Running Discourse server"
-    $START_DISCOURSE -p :3000 srid/discourse \
+    exec $START_DISCOURSE -p :3000 srid/discourse \
         /discourse/docker/start.sh 'bundle exec rails s'
 elif [ "$1" -eq "setup" ]; then
     echo "Setting up discourse"
-    $START_DISCOURSE srid/discourse "/discourse/docker/setup.sh"
+    exec $START_DISCOURSE srid/discourse "/discourse/docker/setup.sh"
 else
     echo "Running arbitrary command: '$1'"
-    $START_DISCOURSE srid/discourse /discourse/docker/start.sh "$@"
+    exec $START_DISCOURSE srid/discourse /discourse/docker/start.sh "$@"
 fi
 
