@@ -14,5 +14,11 @@ START_DISCOURSE="sudo docker run -e REDIS_PROVIDER_URL=$REDIS_PROVIDER_URL -e PO
      -v $(pwd)/data/discourse-public:/discourse/public \
      srid/discourse"
 
-# $START_DISCOURSE "/discourse/docker/setup.sh"
-$START_DISCOURSE /discourse/docker/start.sh 'bundle exec rails s'
+if [ -z "$1" ]; then
+    echo "Running Discourse server"
+    $START_DISCOURSE /discourse/docker/start.sh 'bundle exec rails s'
+else
+    echo "Setting up discourse"
+    # $START_DISCOURSE "/discourse/docker/setup.sh"
+fi
+

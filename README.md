@@ -4,20 +4,6 @@ discourse-docker
 Dockerize [Discourse](http://discourse.org/). This is work in
 progress.
 
-Approach
---------
-
-There will be multiple docker images, roughly one for:
-
-* Discourse image
-* postgresql image
-* redis image
-
-The discourse image will be run multiple times, one for web process,
-some more for workers (email, etc.). 
-
-This is not finalized yet.
-
 Whiteboard
 ----------
 
@@ -39,4 +25,31 @@ https://github.com/srid/notes/blob/master/discourse-on-ubuntu.md
 TODO
 ----
 
-* initial test data
+* initial seed data
+* run workers
+* setup email
+* parametrize scripts and document workflow
+
+Usage
+-----
+
+```bash
+# create docker images
+make
+
+# spawn redis, postgres
+sudo docker run -d srid/redis:2.6
+sudo docker run -d srid/postgresql:9.1
+
+# setup discourse db and assets
+bin/discourse-start setup
+
+# start discourse
+bin/discourse-start 
+
+# start nginx front
+bin/nginx-start
+
+# view site
+bin/nginx-info
+```
