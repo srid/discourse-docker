@@ -1,0 +1,13 @@
+#!/bin/bash
+# -*- sh -*-
+
+CONF=/etc/nginx/conf.d/discourse.conf
+
+sed -i s/\$SITE_HOST/$SITE_HOST/ $CONF
+sed -i s/\$SITE_PORT/$SITE_PORT/ $CONF
+sed -i s/\$SITE_NAME/$SITE_NAME/ $CONF
+
+exec nginx
+
+
+

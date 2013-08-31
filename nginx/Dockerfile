@@ -14,6 +14,12 @@ RUN apt-get -qy install nginx
 
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
+ADD start /
+RUN chmod +x /start
+
+ADD discourse.conf /etc/nginx/conf.d/
+RUN mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.disabled
+
 EXPOSE 80
-CMD nginx
+CMD /start
 

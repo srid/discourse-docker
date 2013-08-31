@@ -72,6 +72,6 @@ RUN apt-get -qy install postgresql-client-9.1
 
 ENV RAILS_ENV production
 
-ADD	. /discourse
-RUN	chmod +x /discourse/init.sh
+ADD	start /
+RUN	chmod +x /start
 EXPOSE :3000
