@@ -6,7 +6,7 @@ FROM	ubuntu:12.04
 MAINTAINER	srid
 
 EXPOSE :5432
-CMD /usr/bin/start-pgsql.sh postgres
+CMD /start postgres
 
 ENV PASS postgres
 
@@ -28,6 +28,6 @@ RUN	DEBIAN_FRONTEND=noninteractive apt-get install -y -q postgresql-9.1 postgres
 # allow autostart again
 RUN	rm /usr/sbin/policy-rc.d
 
-ADD	start-pgsql /usr/bin
+ADD	start /
 ADD     postgresql.conf /etc/postgresql/9.1/main/
-RUN	chmod +x /usr/bin/start-pgsql.sh
+RUN	chmod +x /start
