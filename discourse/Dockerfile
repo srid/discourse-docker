@@ -82,4 +82,4 @@ RUN mv /discourse/public /discourse/public.oow
 ADD	. /discourse/docker/
 RUN	chmod +x /discourse/docker/*
 RUN     ls -l /discourse/
-EXPOSE :3000
+# EXPOSE :3000

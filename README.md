@@ -1,20 +1,10 @@
+<!-- -*- mode: Markdown; -*- -->
+
 discourse-docker
 ================
 
 Dockerize [Discourse](http://discourse.org/). This is work in
 progress.
-
-Whiteboard
-----------
-
-Running multiple processes,
-
-* [#1352: Add support for starting multiple containers from a
-  dockerfile](https://github.com/dotcloud/docker/issues/1352) (Docker
-  0.8)
-* Container orchestration for Docker environments;
-  [maestro](https://github.com/toscanini/maestro) is in "early
-  development" and its config file format is changing heavily.
 
 Original setup instructions,
 https://github.com/discourse/discourse/blob/master/docs/INSTALL-ubuntu.md
@@ -25,10 +15,11 @@ https://github.com/srid/notes/blob/master/discourse-on-ubuntu.md
 TODO
 ----
 
-* initial seed data
-* run workers
 * setup email
 * parametrize scripts and document workflow
+  * can i emulate -link before it is released?
+* process supervisor
+* global configuration, and arbitrary run command, for migrating my other forum.
 
 Usage
 -----
@@ -44,8 +35,11 @@ bin/postgresql-start
 # setup discourse db and assets
 bin/discourse-start setup
 
-# start discourse
+# start discourse (separate terminal)
 bin/discourse-start 
+
+# start discourse workers (separate terminal)
+bin/discourse-start bundle exec sidekiq
 
 # start nginx front
 bin/nginx-start
@@ -57,3 +51,12 @@ bin/nginx-info
 bin/postgresql-info
 echo UPDATE users SET admin = true WHERE username = \'srid\'\; | PGPASSWORD=postgres psql -p 5432 -U root -h 172.17.0.12 -d postgres
 ```
+
+docker feature requests
+-----------------------
+
+* [#1352: Add support for starting multiple containers from a
+  dockerfile](https://github.com/dotcloud/docker/issues/1352) (Docker
+  0.8)
+
+* `docker run -link ...` (no github bug yet)

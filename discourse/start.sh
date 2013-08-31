@@ -6,4 +6,5 @@ set -xe
 
 cd /discourse
 
-exec bash -c "$@"
+echo "RAILS_ENV: $RAILS_ENV"
+echo "$@" | exec bash
