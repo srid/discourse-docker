@@ -6,7 +6,7 @@ discourse-docker
 [Discourse](http://discourse.org/) is a re-imagined online forum
 software. Installing Discourse can be quite an involved process. We
 use [Docker](http://www.docker.io/), an exciting new container
-management tool, to greatly ease the setup process.
+management tool, to greatly ease its install process.
 
 Usage
 -----
@@ -33,6 +33,10 @@ bin/sup status
 # setup discourse database and assets
 bin/discourse-start setup
 
+# OPTIONAL: email support via postmarkapp.com.
+# TODO: unverified.
+echo '<api key>' > ./.postmark-api-key
+
 # finally, start discourse, sidekiq and nginx
 bin/sup start discourse sidekiq nginx
 
@@ -46,11 +50,14 @@ bin/make-admin myusername
 TODO
 ----
 
-* Setup email
+* Setup email (yet to verify)
 * Parametrize scripts and document workflow
   * Try to emulate `docker run -link`
 * Migrate my manually managed Discourse forum.
   * Global configuration (json? etcd?)
+    * config: discourse version
+    * config: (static) port mappings
+    * config: site domain 
 * Upcoming docker releases:
   * [#1352: Add support for starting multiple containers from a
     dockerfile](https://github.com/dotcloud/docker/issues/1352) (Docker

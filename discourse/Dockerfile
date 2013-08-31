@@ -62,6 +62,10 @@ RUN apt-get -qy install ruby2.0 ruby2.0-dev
 RUN echo "gem: --no-ri --no-rdoc" > ~/.gemrc
 RUN gem install bundler
 
+# Add postmark support for sending email, and update Gemfile.lock
+RUN echo "gem 'postmark-rails', '~> 0.5.2'" >> /discourse/Gemfile
+RUN cd discourse && bundle install 
+
 RUN cd discourse && bundle install --deployment --without test
 
 RUN cd discourse/config && cp database.yml.production-sample database.yml
