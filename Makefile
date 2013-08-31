@@ -4,3 +4,6 @@ all:
 	sudo docker build -t "srid/redis:2.6" redis
 	sudo docker build -t "srid/nginx:1.3" nginx
 	sudo docker images | grep srid
+
+ps:
+	sudo docker ps 

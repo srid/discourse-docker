@@ -39,7 +39,7 @@ make
 
 # spawn redis, postgres
 sudo docker run -d srid/redis:2.6
-sudo docker run -d srid/postgresql:9.1
+bin/postgresql-start
 
 # setup discourse db and assets
 bin/discourse-start setup

@@ -18,7 +18,7 @@ if [ ! "$(ls -A $DATADIR)" ]; then
   echo "Initializing Postgres Database at $DATADIR"
   chown -R postgres $DATADIR
   su postgres sh -c "$BINDIR/initdb $DATADIR"
-  su postgres sh -c "$BINDIR/postgres --single  -D $DATADIR  -c config_file=/etc/postgresql/9.1/main/postgresql.conf" <<< "CREATE USER root WITH SUPERUSER PASSWORD '$PASS';"
+  su postgres sh -c "$BINDIR/postgres --single  -D $DATADIR  -c config_file=/etc/postgresql/9.1/main/postgresql.conf" <<< "CREATE USER root WITH SUPERUSER PASSWORD 'postgres';"
 fi
 
 cat /etc/postgresql/9.1/main/postgresql.conf

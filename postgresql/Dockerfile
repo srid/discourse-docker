@@ -8,8 +8,6 @@ MAINTAINER	srid
 EXPOSE :5432
 CMD /start postgres
 
-ENV PASS postgres
-
 # prevent apt from starting postgres right after the installation
 RUN	echo "#!/bin/sh\nexit 101" > /usr/sbin/policy-rc.d; chmod +x /usr/sbin/policy-rc.d
 
