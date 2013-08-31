@@ -44,9 +44,6 @@ bin/discourse-start setup
 # start discourse, sidekiq and nginx
 bin/sup start discourse sidekiq nginx
 
-# start discourse workers (separate terminal)
-bin/discourse-start bundle exec sidekiq
-
 # view site
 make info
 
