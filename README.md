@@ -28,7 +28,11 @@ make
 
 # Configure your discourse site domain (DISCOURSE_HOST)
 more etc/env
-echo 'export DISCOURSE_HOST=myforum.com' > .env
+echo 'export DISCOURSE_HOST=mysite.com:5000' > .env
+
+# OPTIONAL: email support via postmarkapp.com.
+# later, add the 'From' address to Discourse admin settings.
+echo 'export POSTMARK_API_KEY=<apikey>' >> .env
 
 # start supervisor on a separate terminal window
 make supervisor
@@ -36,10 +40,6 @@ make supervisor
 # verify that redis-server and postgres are running.
 # note: bin/sup is alias to `sudo supervisorctl`.
 bin/sup status
-
-# OPTIONAL: email support via postmarkapp.com.
-# now, add the 'From' address to Discourse admin settings.
-echo '<api key>' > ./.postmark-api-key
 
 # setup discourse database and assets
 bin/discourse-start setup
@@ -49,11 +49,6 @@ bin/sup start discourse sidekiq nginx
 
 # discourse is now running; launch the discourse URL.
 make info
-
-# OPTIONAL: consider proxying this URL via a frontend like nginx.
-# TODO: complete this
-sudo apt-get install nginx
-...
 
 # signup for an account, and make yourself an admin:
 bin/make-admin myusername
