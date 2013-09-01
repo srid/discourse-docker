@@ -27,7 +27,8 @@ sudo pip install supervisor
 make
 
 # Configure your discourse site domain (DISCOURSE_HOST)
-vi etc/env
+more etc/env
+vi .env
 
 # start supervisor on a separate terminal window
 make supervisor
