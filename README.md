@@ -16,6 +16,9 @@ Get yourself a Ubuntu 13.04 VM (I recommend
 and start getting Discourse up and running in a few minutes:
 
 ```bash
+# install docker
+open http://docs.docker.io/en/latest/installation/ubuntulinux/#ubuntu-raring
+
 # install supervisor
 sudo apt-get install python-pip
 sudo pip install supervisor
@@ -34,18 +37,23 @@ make supervisor
 # note: bin/sup is alias to `sudo supervisorctl`.
 bin/sup status
 
-# setup discourse database and assets
-bin/discourse-start setup
-
 # OPTIONAL: email support via postmarkapp.com.
 # now, add the 'From' address to Discourse admin settings.
 echo '<api key>' > ./.postmark-api-key
+
+# setup discourse database and assets
+bin/discourse-start setup
 
 # finally, start discourse, sidekiq and nginx
 bin/sup start discourse sidekiq nginx
 
 # discourse is now running; launch the discourse URL.
 make info
+
+# OPTIONAL: consider proxying this URL via a frontend like nginx.
+# TODO: complete this
+sudo apt-get install nginx
+...
 
 # signup for an account, and make yourself an admin:
 bin/make-admin myusername
@@ -56,11 +64,13 @@ TODO
 
 * Parametrize scripts and document workflow
   * Try to emulate `docker run -link`
+  * Parametrize image names ("$USER/discourse")
 * Migrate my manually managed Discourse forum.
   * Global configuration (json? etcd?)
     * config: discourse version
     * config: (static) port mappings
     * config: site domain 
+* Publish to the public registry
 * Upcoming docker releases:
   * [#1352: Add support for starting multiple containers from a
     dockerfile](https://github.com/dotcloud/docker/issues/1352) (Docker
@@ -80,4 +90,6 @@ To migrate an existing Discourse forum:
 2. Run `bin/discourse-start setup`. If assets creation fails, try
    re-running it using `bin/discourse-start "bundle exec rake
    assets:precompile"`.
+   
+3. TODO: import public/uploads/
 
