@@ -65,11 +65,8 @@ TODO
 * Parametrize scripts and document workflow
   * Try to emulate `docker run -link`
   * Parametrize image names ("$USER/discourse")
-* Migrate my manually managed Discourse forum.
-  * Global configuration (json? etcd?)
-    * config: discourse version
-    * config: (static) port mappings
-    * config: site domain 
+  * Parametrize docker version (tag)
+* Backup script (dropbox) for postgres and uploads folder
 * Publish to the public registry
 * Upcoming docker releases:
   * [#1352: Add support for starting multiple containers from a
