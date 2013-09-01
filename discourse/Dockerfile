@@ -2,16 +2,19 @@
 
 # Base image for all Discourse related processes.
 
+# NOTE to dev: do not have too many RUN commands; see
+# https://github.com/dotcloud/docker/issues/1171
+
+
 FROM ubuntu:12.04
 MAINTAINER srid
 
-RUN apt-get -qy update
+ENV DISCOURSE_VERSION 0.9.6.2
 
-RUN apt-get -qy install git 
+RUN apt-get -qy update && apt-get -qy install git 
 
 # Get discourse stable tag
-RUN git clone --depth 1 https://github.com/discourse/discourse.git
-RUN cd discourse && git checkout v0.9.6.1
+RUN git clone --depth 1 https://github.com/discourse/discourse.git && cd discourse && git checkout v$DISCOURSE_VERSION
 
 # We don't care about having .git on an ephemeral filesystem.
 RUN rm -rf .git
@@ -29,21 +32,8 @@ RUN dpkg-reconfigure locales
 # https://github.com/discourse/discourse/blob/master/docs/INSTALL-ubuntu.md
 #
 
-RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
-RUN apt-get -qy update
-RUN apt-get -qy install build-essential libssl-dev libyaml-dev git libtool libxslt-dev libxml2-dev libpq-dev gawk curl pngcrush python-software-properties
-
-# nginx
-# TODO: move to different container?
-RUN apt-get remove '^nginx.*$'
-
-RUN echo "deb http://nginx.org/packages/ubuntu/ precise nginx" >> /etc/apt/sources.list
-RUN echo "deb-src http://nginx.org/packages/ubuntu/ precise nginx" >> /etc/apt/sources.list
-RUN curl http://nginx.org/keys/nginx_signing.key | apt-key add -
-
-RUN apt-get -qy update
-RUN apt-get -qy install nginx
-
+RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list && apt-get -qy update
+RUN apt-get -qy install build-essential libssl-dev libyaml-dev git libtool libxslt-dev libxml2-dev libpq-dev gawk curl pngcrush imagemagick python-software-properties
 
 # Discourse setup
 #
@@ -55,8 +45,7 @@ RUN apt-get -qy install nginx
 # RUN su - postgres -c "createuser -s discourse"
 
 # Install Ruby 2.0.0 (not bothering to use RVM)
-RUN add-apt-repository ppa:brightbox/ruby-ng-experimental 
-RUN apt-get -qy update
+RUN add-apt-repository ppa:brightbox/ruby-ng-experimental  && apt-get -qy update
 RUN apt-get -qy install ruby2.0 ruby2.0-dev
 
 RUN echo "gem: --no-ri --no-rdoc" > ~/.gemrc
@@ -68,14 +57,7 @@ RUN cd discourse && bundle install
 
 RUN cd discourse && bundle install --deployment --without test
 
-RUN cd discourse/config && cp database.yml.production-sample database.yml
-RUN cd discourse/config && cp redis.yml.sample redis.yml
-RUN cd discourse/config && cp environments/production.rb.sample environments/production.rb
-# RUN cd discourse/config && cp discourse.pill.sample discourse.pill
-
-
-# `rake db:test:prepare` seems to require psql
-RUN apt-get -qy install postgresql-client-9.1
+RUN cd discourse/config && cp database.yml.production-sample database.yml && cp redis.yml.sample redis.yml && cp environments/production.rb.sample environments/production.rb
 
 ENV RAILS_ENV production
 
@@ -85,5 +67,4 @@ RUN mv /discourse/public /discourse/public.oow
 
 ADD	. /discourse/docker/
 RUN	chmod +x /discourse/docker/*
-RUN     ls -l /discourse/
 # EXPOSE :3000
