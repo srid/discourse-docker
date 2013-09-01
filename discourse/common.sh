@@ -16,7 +16,7 @@ sed -i "s/# password: 123123123123/password: postgres/" config/database.yml
 sed -i "s/host: localhost/host: $POSTGRES_HOST\n  port: $POSTGRES_PORT/" config/database.yml
 
 # set site domain
-sed -i "s/production.localhost/discourse.example.com/" config/database.yml
+sed -i "s/production.localhost/$DISCOURSE_HOST/" config/database.yml
 
 # http://stackoverflow.com/a/7529711
 sed -i "s/timeout: 5000/timeout: 5000\n  template: template0/" config/database.yml

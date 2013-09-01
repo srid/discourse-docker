@@ -23,6 +23,10 @@ sudo pip install supervisor
 # create docker images (takes a few minutes)
 make
 
+# Configure your discourse site domain in etc/supervisord.conf
+# (DISCOURSE_HOST)
+vi etc/supervisord.conf
+
 # start supervisor on a separate terminal window
 make supervisor
 
@@ -50,6 +54,8 @@ bin/make-admin myusername
 TODO
 ----
 
+* Statically map ports
+
 * Parametrize scripts and document workflow
   * Try to emulate `docker run -link`
 * Migrate my manually managed Discourse forum.
@@ -62,3 +68,18 @@ TODO
     dockerfile](https://github.com/dotcloud/docker/issues/1352) (Docker
     0.8)
   * `docker run -link ...` (no github bug yet)
+
+Migration
+---------
+
+To migrate an existing Discourse forum:
+
+0. Start only postgresql,redis
+
+1. Take a snapshot of the database and import it right after starting
+   the postgresql image.
+   
+2. Run `bin/discourse-start setup`. If assets creation fails, try
+   re-running it using `bin/discourse-start "bundle exec rake
+   assets:precompile"`.
+
