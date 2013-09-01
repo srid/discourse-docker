@@ -1,6 +1,7 @@
 #!/bin/bash
 # Display $REDIS_URL for running srid/redis
 
+set -e
 . etc/env
 
 ID=$(sudo docker ps | grep srid/redis:2.6 | awk '{print $1}')

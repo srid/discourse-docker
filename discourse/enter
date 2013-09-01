@@ -18,9 +18,12 @@ function setup {
     # public.oow), and then run assets:precompile to populate the
     # assets/ directory. We exect public/uploads to be manually copied
     # by the user, later, during site migration.
-    rm -rf public/*
-    mv public.oow/* public && rmdir public.oow
-    time bundle exec rake assets:precompile
+    if [ ! -e public/assets ]; then
+        echo "Resetting public/ data volume"
+        rm -rf public/*
+        mv public.oow/* public && rmdir public.oow
+        time bundle exec rake assets:precompile
+    fi
     set +x
 }
 

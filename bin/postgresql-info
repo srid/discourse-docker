@@ -1,6 +1,7 @@
 #!/bin/bash
 # Display psql command line to connect to running postgres
 
+set -e
 . etc/env
 
 ID=$(sudo docker ps | grep srid/postgresql:9.1 | awk '{print $1}')
