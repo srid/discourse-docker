@@ -34,7 +34,7 @@ bin/sup status
 bin/discourse-start setup
 
 # OPTIONAL: email support via postmarkapp.com.
-# TODO: unverified.
+# now, add the 'From' address to Discourse admin settings.
 echo '<api key>' > ./.postmark-api-key
 
 # finally, start discourse, sidekiq and nginx
@@ -50,7 +50,6 @@ bin/make-admin myusername
 TODO
 ----
 
-* Setup email (yet to verify)
 * Parametrize scripts and document workflow
   * Try to emulate `docker run -link`
 * Migrate my manually managed Discourse forum.
