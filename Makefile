@@ -5,6 +5,10 @@ all:
 	sudo docker build -t "srid/nginx:1.3" nginx
 	sudo docker images | grep srid
 
+discourse-image:
+	sudo docker build -t srid/discourse discourse
+	sudo docker images | grep srid/discourse
+
 ps:
 	sudo docker ps 
 

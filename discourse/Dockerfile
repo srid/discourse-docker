@@ -65,6 +65,7 @@ ENV RAILS_ENV production
 # the original public folder out of the way, for now.
 RUN mv /discourse/public /discourse/public.oow
 
-ADD	. /discourse/docker/
-RUN	chmod +x /discourse/docker/*
-# EXPOSE :3000
+ADD	enter /
+RUN	chmod +x /enter
+WORKDIR   /discourse
+ENTRYPOINT ["/enter"]

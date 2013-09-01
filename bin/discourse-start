@@ -24,15 +24,8 @@ START_DISCOURSE="sudo docker run \
      -e DISCOURSE_HOST=$DISCOURSE_HOST \
      -v $(pwd)/data/discourse-public:/discourse/public"
 
-if [ -z "$1" ]; then
-    echo "Running Discourse server"
-    exec $START_DISCOURSE -p :3000 srid/discourse \
-        /discourse/docker/start.sh 'bundle exec rails s'
-elif [ "$1" = "setup" ]; then
-    echo "Setting up discourse"
-    exec $START_DISCOURSE srid/discourse "/discourse/docker/setup.sh"
-else
-    echo "Running arbitrary command: '$1'"
-    exec $START_DISCOURSE srid/discourse /discourse/docker/start.sh "$@"
+if [ "$@" = "web" ]; then
+    START_DISCOURSE="$START_DISCOURSE -p :3000"
 fi
 
+exec $START_DISCOURSE srid/discourse $@

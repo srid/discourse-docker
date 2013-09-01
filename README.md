@@ -64,10 +64,14 @@ TODO
 
 * Parametrize scripts and document workflow
   * Try to emulate `docker run -link`
-  * Parametrize image names ("$USER/discourse")
-  * Parametrize docker version (tag)
-* Backup script (dropbox) for postgres and uploads folder
 * Publish to the public registry
+  * Prefer `docker run` over `bin/*`
+* Backup script (dropbox) for postgres and uploads folder
+* Upgrade script for upgrading to discourse future tag releases
+  * Automatically backup/restore data/{postgresql/discourse-public} in
+    the event if failure.
+  * Run db:migrate and asset:precompile without resetting
+    data/discourse-public (as 'setup' does).
 * Upcoming docker releases:
   * [#1352: Add support for starting multiple containers from a
     dockerfile](https://github.com/dotcloud/docker/issues/1352) (Docker
