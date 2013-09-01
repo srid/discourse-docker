@@ -28,7 +28,7 @@ make
 
 # Configure your discourse site domain (DISCOURSE_HOST)
 more etc/env
-vi .env
+echo 'export DISCOURSE_HOST=myforum.com' > .env
 
 # start supervisor on a separate terminal window
 make supervisor

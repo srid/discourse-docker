@@ -19,4 +19,6 @@ export POSTMARK_API_KEY=""
 export HOSTIP=$(/sbin/ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}')
 
 # Overrides.
-source .env
+if [ -e .env ]; then
+    source .env
+fi
