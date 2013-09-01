@@ -26,9 +26,8 @@ sudo pip install supervisor
 # create docker images (takes a few minutes)
 make
 
-# Configure your discourse site domain in etc/supervisord.conf
-# (DISCOURSE_HOST)
-vi etc/supervisord.conf
+# Configure your discourse site domain (DISCOURSE_HOST)
+vi etc/env
 
 # start supervisor on a separate terminal window
 make supervisor
@@ -66,6 +65,7 @@ TODO
   * Try to emulate `docker run -link`
 * Publish to the public registry
   * Prefer `docker run` over `bin/*`
+    * Can't move ENV (link) and VOLUME to Dockerfile.
 * Backup script (dropbox) for postgres and uploads folder
 * Upgrade script for upgrading to discourse future tag releases
   * Automatically backup/restore data/{postgresql/discourse-public} in

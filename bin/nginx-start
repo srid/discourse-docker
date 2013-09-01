@@ -1,11 +1,7 @@
 #!/bin/bash
 
 set -xe
-
-HOSTIP=$(/sbin/ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}')
-DISCOURSE_PORT=3000
-
-NGINX_PORT=${NGINX_PORT:=4000}
+. etc/env
 
 # Assign static port (NGINX_PORT) for nginx front so that it can be
 # reliably used in the frontend's config file.

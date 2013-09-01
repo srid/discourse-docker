@@ -1,14 +1,13 @@
 #!/bin/bash
 # Display psql command line to connect to running postgres
 
+. etc/env
+
 ID=$(sudo docker ps | grep srid/postgresql:9.1 | awk '{print $1}')
 
-HOSTIP=$(/sbin/ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}')
-# IPADDR=$(sudo docker inspect $ID | grep IPAddress | awk '{print $2}' | tr -d ',"')
-PORT=$(sudo docker port $ID 5432)
-
 export POSTGRES_HOST=$HOSTIP
-export POSTGRES_PORT=$PORT
+export POSTGRES_PORT=$(sudo docker port $ID 5432)
+export POSTGRES_PASS="postgres"
 
-echo "# password: postgres"
+echo "# password: $POSTGRES_PASS"
 echo "psql -p $PORT -U root -W -h $HOSTIP -d postgres"

@@ -1,0 +1,21 @@
+# -*- sh -*-
+# Common environment variables shared bin/* scripts go here.
+
+# Top-level domain of your Discourse site. This will be added to rails
+# database.yml
+export DISCOURSE_HOST="unconfigured.example.com"
+
+# Port to which the Discourse rails server will bind to by default.
+export DISCOURSE_PORT=3000
+
+# Frontend (nginx) port of Discourse site
+export NGINX_PORT=5000
+
+# Optional postmark API key
+if [ -e .postmark-api-key ]; then
+    export POSTMARK_API_KEY=$(cat .postmark-api-key)
+fi
+
+# IP address of current host.
+export HOSTIP=$(/sbin/ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}')
+

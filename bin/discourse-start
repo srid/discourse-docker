@@ -1,21 +1,10 @@
 #!/bin/bash
 
 set -xe
+. etc/env
 
-REDIS_PROVIDER_URL=$(bin/redis-info)
-
-# This sources POSTGRES_* env vars.
 source bin/postgresql-info
-
-HOSTIP=$(/sbin/ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}')
-echo $POSTGRES_HOST
-echo $POSTGRES_PORT
-
-DISCOURSE_HOST=${DISCOURSE_HOST:=discourse.example.com}
-
-if [ -e .postmark-api-key ]; then
-    export POSTMARK_API_KEY=$(cat .postmark-api-key)
-fi
+source bin/redis-info
 
 START_DISCOURSE="sudo docker run \
      -e REDIS_PROVIDER_URL=$REDIS_PROVIDER_URL \

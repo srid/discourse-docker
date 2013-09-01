@@ -1,6 +1,6 @@
 #!/bin/bash
 # Entrypoint script for Discourse
-# -*- sh -*-
+# -*- mode: sh -*-
 
 set -e
 
