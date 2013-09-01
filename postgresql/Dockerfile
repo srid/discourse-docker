@@ -5,7 +5,7 @@
 FROM	ubuntu:12.04
 MAINTAINER	srid
 
-EXPOSE :5432
+EXPOSE 5432
 CMD /start postgres
 
 # prevent apt from starting postgres right after the installation

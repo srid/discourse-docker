@@ -4,6 +4,9 @@ set -xe
 
 HOSTIP=$(/sbin/ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}')
 
+# Assign static port (5000) for nginx front so that it can be reliably
+# used in the frontend's config file.
 exec sudo docker run -e SITE_PORT=3000 -e SITE_HOST=$HOSTIP -e SITE_NAME=discourse.example.com \
+    -p 5000:80 \
     -v $(pwd)/data/discourse-public:/discourse-public \
     srid/nginx:1.3

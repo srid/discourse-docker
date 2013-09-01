@@ -7,5 +7,5 @@ RUN apt-add-repository -y ppa:rwky/redis
 RUN apt-get update
 RUN apt-get -qy install redis-server
 
-EXPOSE :6379
+EXPOSE 6379
 CMD /usr/bin/redis-server

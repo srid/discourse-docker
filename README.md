@@ -54,8 +54,6 @@ bin/make-admin myusername
 TODO
 ----
 
-* Statically map ports
-
 * Parametrize scripts and document workflow
   * Try to emulate `docker run -link`
 * Migrate my manually managed Discourse forum.
