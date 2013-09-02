@@ -26,7 +26,7 @@ sudo pip install supervisor
 git clone https://github.com/srid/discourse-docker.git
 cd discourse-docker
 
-# Pull the docker images
+# Pull the docker images (expect this to download a few megabytes)
 make pull  # or `make build` if you want to locally build them
 
 # Configure your discourse site domain (DISCOURSE_HOST)
@@ -45,12 +45,15 @@ make supervisor
 bin/sup status
 
 # Setup the discourse database and compile static assets.
+# Note: postgres data is at data/postgres; discourse public/
+# (containing uploaded files) directory is mounted from
+# data/discourse-public.
 bin/discourse-start setup
 
 # Finally, start discourse, sidekiq and nginx
 bin/sup start discourse sidekiq nginx
 
-# Discourse is now running; launch the discourse URL.
+# Discourse is now running; launch the discourse site URL.
 make info
 
 # After signing up for an account, make yourself an admin:
@@ -80,16 +83,17 @@ TODO
 Migration
 ---------
 
-To migrate an existing Discourse forum:
+To migrate from an existing Discourse forum:
 
 0. Start only postgresql,redis
 
 1. Take a snapshot of the database and import it right after starting
-   the postgresql image.
+   the postgresql container.
    
-2. Run `bin/discourse-start setup`. If assets creation fails, try
-   re-running it using `bin/discourse-start "bundle exec rake
+2. Run `bin/discourse-start setup`. If the assets creation step fails,
+   try re-running it using `bin/discourse-start "bundle exec rake
    assets:precompile"`.
    
-3. TODO: import public/uploads/
+3. Import public/uploads directory into data/discourse-public/uploads
 
+4. Start everything: bin/sup start all
