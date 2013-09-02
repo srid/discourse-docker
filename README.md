@@ -57,18 +57,20 @@ bin/make-admin myusername
 TODO
 ----
 
-* Parametrize scripts and document workflow
-  * Try to emulate `docker run -link`
 * Publish to the public registry
+  * How to publish meta files (bin/, etc/)?
   * Prefer `docker run` over `bin/*`
     * Can't move ENV (link) and VOLUME to Dockerfile.
+    
 * Backup script (dropbox) for postgres and uploads folder
+
 * Upgrade script for upgrading to discourse future tag releases
   * Automatically backup/restore data/{postgresql/discourse-public} in
     the event if failure.
   * Run db:migrate and asset:precompile without resetting
     data/discourse-public (as 'setup' does).
-* Upcoming docker releases:
+
+* Monitor upcoming docker releases:
   * [#1352: Add support for starting multiple containers from a
     dockerfile](https://github.com/dotcloud/docker/issues/1352) (Docker
     0.8)

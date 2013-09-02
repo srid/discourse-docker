@@ -3,7 +3,7 @@
 set -e
 . etc/env
 
-ID=$(sudo docker ps | grep srid/nginx:1.3 | awk '{print $1}')
+ID=$(sudo docker ps | grep srid/discourse-nginx:1.3 | awk '{print $1}')
 PORT=$(sudo docker port $ID 80)
 
 echo "Discourse is running at,"

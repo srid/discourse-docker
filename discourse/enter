@@ -81,6 +81,8 @@ No command specified. Valid commands include:
   * web: Run the rails web server
   * sidekiq: Run the sidekiq worker
   * setup: Run the one-time Discourse setup
+
+See https://github.com/srid/discourse-docker for details.
 EOF
 else
     run_cmd $@
