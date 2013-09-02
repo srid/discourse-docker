@@ -1,6 +1,7 @@
 #!/bin/bash
 
-set -xe
+set -e
 . etc/env
 
+set -x
 exec sudo docker run srid/redis:2.6

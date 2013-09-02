@@ -10,5 +10,4 @@ export POSTGRES_HOST=$HOSTIP
 export POSTGRES_PORT=$(sudo docker port $ID 5432)
 export POSTGRES_PASS="postgres"
 
-echo "# password: $POSTGRES_PASS"
-echo "psql -p $PORT -U root -W -h $HOSTIP -d postgres"
+export POSTGRES_CLI="psql -p $POSTGRES_PORT -U root -h $HOSTIP -d postgres"

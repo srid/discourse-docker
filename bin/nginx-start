@@ -1,8 +1,9 @@
 #!/bin/bash
 
-set -xe
+set -e
 . etc/env
 
+set -x
 # Assign static port (NGINX_PORT) for nginx front so that it can be
 # reliably used in the frontend's config file.
 exec sudo docker run \

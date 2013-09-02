@@ -13,8 +13,8 @@ fi
 . bin/postgresql-info
 
 export PGPASSWORD=postgres
-CMD="psql -p $POSTGRES_PORT -U root -h $POSTGRES_HOST -d postgres"
+# CMD="psql -p $POSTGRES_PORT -U root -h $POSTGRES_HOST -d postgres"
 
 set -x
-echo UPDATE users SET admin = true WHERE username = \'$USERNAME\'\; | $CMD
+echo UPDATE users SET admin = true WHERE username = \'$USERNAME\'\; | $POSTGRES_CLI
 

@@ -1,8 +1,9 @@
 #!/bin/bash
 
-set -xe
+set -e
 . etc/env
 
+set -x
 exec sudo docker run \
     -v $(pwd)/data/postgres:/var/lib/postgresql \
     srid/postgresql:9.1

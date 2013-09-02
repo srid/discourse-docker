@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -xe
+set -e
 . etc/env
 
 source bin/postgresql-info
@@ -13,10 +13,11 @@ START_DISCOURSE="sudo docker run \
      -e DISCOURSE_HOST=$DISCOURSE_HOST \
      -v $(pwd)/data/discourse-public:/discourse/public"
 
-if [ "$@" = "web" ]; then
+if [ "$1" = "web" ]; then
     # TODO: use random port on host, and change nginx-start
     # accordingly.
     START_DISCOURSE="$START_DISCOURSE -p :3000"
 fi
 
+set -x
 exec $START_DISCOURSE srid/discourse $@
