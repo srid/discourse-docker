@@ -16,52 +16,50 @@ Get yourself a Ubuntu 13.04 VM (I recommend
 and start getting Discourse up and running in a few minutes:
 
 ```bash
-# install docker
+# Install docker
 open http://docs.docker.io/en/latest/installation/ubuntulinux/#ubuntu-raring
 
-# install supervisor
+# Install supervisor, the process manager
 sudo apt-get install python-pip
 sudo pip install supervisor
 
-# Prepare images, run one of the following:
-sudo docker pull srid/discourse srid/discourse-nginx srid/postgresql \
-  srid/redis
-# or,
-make  # build images yourself
+git clone https://github.com/srid/discourse-docker.git
+cd discourse-docker
+
+# Pull the docker images
+make pull  # or `make build` if you want to locally build them
 
 # Configure your discourse site domain (DISCOURSE_HOST)
 more etc/env
 echo 'export DISCOURSE_HOST=mysite.com:5000' > .env
-
 # OPTIONAL: email support via postmarkapp.com.
 # later, add the 'From' address to Discourse admin settings.
 echo 'export POSTMARK_API_KEY=<apikey>' >> .env
 
-# start supervisor on a separate terminal window
+# Start supervisor on a separate terminal window. This will
+# automatically start the redis and postgresql containers.
 make supervisor
 
-# verify that redis-server and postgres are running.
-# note: bin/sup is alias to `sudo supervisorctl`.
+# Verify that redis-server and postgres are running.
+# Note: bin/sup is alias to `sudo supervisorctl`.
 bin/sup status
 
-# setup discourse database and assets
+# Setup the discourse database and compile static assets.
 bin/discourse-start setup
 
-# finally, start discourse, sidekiq and nginx
+# Finally, start discourse, sidekiq and nginx
 bin/sup start discourse sidekiq nginx
 
-# discourse is now running; launch the discourse URL.
+# Discourse is now running; launch the discourse URL.
 make info
 
-# signup for an account, and make yourself an admin:
+# After signing up for an account, make yourself an admin:
 bin/make-admin myusername
 ```
 
 TODO
 ----
 
-* Publish to the public registry
-* Use global supevisord (for simplification)
 * Minimize fs layers (pre-bundle, bundle install, post-bundle) so
   that 'docker pull' progress will be realistic.
 
