@@ -10,7 +10,10 @@ discourse-image:
 	sudo docker images | grep srid/discourse
 
 push:
-	echo
+	sudo docker push srid/discourse-nginx
+	sudo docker push srid/redis
+	sudo docker push srid/postgresql
+	sudo docker push srid/discourse
 
 ps:
 	sudo docker ps 

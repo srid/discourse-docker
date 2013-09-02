@@ -23,8 +23,11 @@ open http://docs.docker.io/en/latest/installation/ubuntulinux/#ubuntu-raring
 sudo apt-get install python-pip
 sudo pip install supervisor
 
-# create docker images (takes a few minutes)
-make
+# Prepare images, run one of the following:
+sudo docker pull srid/discourse srid/discourse-nginx srid/postgresql \
+  srid/redis
+# or,
+make  # build images yourself
 
 # Configure your discourse site domain (DISCOURSE_HOST)
 more etc/env
@@ -58,10 +61,10 @@ TODO
 ----
 
 * Publish to the public registry
-  * How to publish meta files (bin/, etc/)?
-  * Prefer `docker run` over `bin/*`
-    * Can't move ENV (link) and VOLUME to Dockerfile.
-    
+* Use global supevisord (for simplification)
+* Minimize fs layers (pre-bundle, bundle install, post-bundle) so
+  that 'docker pull' progress will be realistic.
+
 * Backup script (dropbox) for postgres and uploads folder
 
 * Upgrade script for upgrading to discourse future tag releases
