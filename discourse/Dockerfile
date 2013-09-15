@@ -9,7 +9,7 @@
 FROM ubuntu:12.04
 MAINTAINER srid
 
-ENV DISCOURSE_VERSION 0.9.6.2
+ENV DISCOURSE_VERSION 0.9.6.3
 
 RUN apt-get -qy update && apt-get -qy install git 
 
