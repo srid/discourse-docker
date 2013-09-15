@@ -34,12 +34,6 @@ apt-get -qy install build-essential libssl-dev libyaml-dev git libtool \
 # Discourse setup
 #
 
-# Create discourse database
-# XXX: we are struck here, as docker won't run installed services, for
-# good reason. need to look into having multiple Dockerfiles one per
-# service.
-# RUN su - postgres -c "createuser -s discourse"
-
 # Install Ruby 2.0.0 (not bothering to use RVM)
 add-apt-repository ppa:brightbox/ruby-ng-experimental 
 apt-get -qy update
@@ -63,3 +57,7 @@ popd
 # ./public will be a docker data-volume to be shared with nginx. Move
 # the original public folder out of the way, for now.
 mv /discourse/public /discourse/public.oow
+
+# cleanup apt cache to save image space
+apt-get -qy autoclean
+apt-get -qy clean
