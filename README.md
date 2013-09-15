@@ -63,26 +63,6 @@ make info
 bin/make-admin myusername
 ```
 
-TODO
-----
-
-* Minimize fs layers (pre-bundle, bundle install, post-bundle) so
-  that 'docker pull' progress will be realistic.
-
-* Backup script (dropbox) for postgres and uploads folder
-
-* Upgrade script for upgrading to discourse future tag releases
-  * Automatically backup/restore data/{postgresql/discourse-public} in
-    the event if failure.
-  * Run db:migrate and asset:precompile without resetting
-    data/discourse-public (as 'setup' does).
-
-* Monitor upcoming docker releases:
-  * [#1352: Add support for starting multiple containers from a
-    dockerfile](https://github.com/dotcloud/docker/issues/1352) (Docker
-    0.8)
-  * `docker run -link ...` (no github bug yet)
-
 Migration
 ---------
 
