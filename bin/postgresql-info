@@ -5,7 +5,7 @@ ID=$(sudo docker ps | grep srid/postgresql:9.1 | awk '{print $1}')
 
 HOSTIP=$(/sbin/ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}')
 # IPADDR=$(sudo docker inspect $ID | grep IPAddress | awk '{print $2}' | tr -d ',"')
-PORT=$(sudo docker port $ID 5432)
+PORT=$(sudo docker port $ID 5432 | awk -F: '{print $2}')
 
 export POSTGRES_HOST=$HOSTIP
 export POSTGRES_PORT=$PORT

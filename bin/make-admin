@@ -13,7 +13,7 @@ fi
 ID=$(sudo docker ps | grep srid/postgresql:9.1 | awk '{print $1}')
 
 IPADDR=$(sudo docker inspect $ID | grep IPAddress | awk '{print $2}' | tr -d ',"')
-PORT=$(sudo docker port $ID 5432)
+PORT=$(sudo docker port $ID 5432 | awk -F: '{print $2}')
 
 export PGPASSWORD=postgres
 CMD="psql -p $PORT -U root -h $IPADDR -d postgres"

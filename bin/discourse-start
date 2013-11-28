@@ -26,7 +26,7 @@ START_DISCOURSE="sudo docker run \
 
 if [ -z "$1" ]; then
     echo "Running Discourse server"
-    exec $START_DISCOURSE -p :3000 srid/discourse \
+    exec $START_DISCOURSE -p 3000:3000 srid/discourse \
         /discourse/docker/start.sh 'bundle exec rails s'
 elif [ "$1" = "setup" ]; then
     echo "Setting up discourse"
