@@ -1,5 +1,9 @@
 #!/bin/bash
 
-set -xe
+set -e
+. etc/env
 
-exec sudo docker run -p 5432 -v $(pwd)/data/postgres:/var/lib/postgresql srid/postgresql:9.1
+set -x
+exec sudo docker run -p 5432 \
+    -v $(pwd)/data/postgres:/var/lib/postgresql \
+    srid/postgresql:9.1

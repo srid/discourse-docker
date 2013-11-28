@@ -1,0 +1,89 @@
+#!/bin/bash
+# Entrypoint script for Discourse
+# -*- mode: sh -*-
+
+set -e
+
+ARGV=$@
+
+function setup {
+    set -x
+    # Note that we do not reset the database, to support a manual
+    # postgres import (as part of migration) before setup is run.
+    bundle exec rake db:create
+    bundle exec rake db:migrate
+    # TODO: import pg_dumps/production-image.sql if asked for.
+
+    # Initialize public/ data-volume by copying original files (from
+    # public.oow), and then run assets:precompile to populate the
+    # assets/ directory. We exect public/uploads to be manually copied
+    # by the user, later, during site migration.
+    if [ ! -e public/assets ]; then
+        echo "Resetting public/ data volume"
+        rm -rf public/*
+        mv public.oow/* public && rmdir public.oow
+        time bundle exec rake assets:precompile
+    fi
+    set +x
+}
+
+function run_cmd {
+    echo $@ | exec bash
+}
+
+function configure_from_env {
+# production database
+    sed -i "s/database: discourse_prod/database: postgres/" config/database.yml
+    sed -i "s/# username: discourse_prod/username: root/" config/database.yml
+    sed -i "s/# password: itisagooddaytovi/password: postgres/" config/database.yml
+    sed -i "s/# host: dbhost/host: $POSTGRES_HOST\n  port: $POSTGRES_PORT/" config/database.yml
+
+# test db
+    sed -i "s/# username: discourse_test/username: root/" config/database.yml
+    sed -i "s/# password: 123123123123/password: postgres/" config/database.yml
+    sed -i "s/host: localhost/host: $POSTGRES_HOST\n  port: $POSTGRES_PORT/" config/database.yml
+
+# set site domain
+    sed -i "s/production.localhost/$DISCOURSE_HOST/" config/database.yml
+
+# http://stackoverflow.com/a/7529711
+    sed -i "s/timeout: 5000/timeout: 5000\n  template: template0/" config/database.yml
+
+# postmark mailer
+    if [ ! -z "$POSTMARK_API_KEY" ]; then
+        sed -i "s/sendmail/postmark/" config/environments/production.rb
+        sed -i "s/{arguments: '-i'}/{ :api_key => \"$POSTMARK_API_KEY\" }/" config/environments/production.rb
+    fi
+
+    if [ ! -z "$DEBUG" ]; then
+        echo "production.rb =>"
+        cat /discourse/config/environments/production.rb
+        echo "database.yml =>"
+        cat /discourse/config/database.yml
+        echo "RAILS_ENV: $RAILS_ENV"
+    fi
+}
+
+configure_from_env
+
+if [ "$1" = "setup" ]; then
+    setup
+elif [ "$1" == "web" ]; then
+    echo "+ bundle exec rails server"
+    run_cmd "bundle exec rails server"
+elif [ "$1" == "sidekiq" ]; then
+    echo "+ bundle exec sidekiq"
+    run_cmd "bundle exec sidekiq"
+elif [ "$1" = "" ]; then
+    cat <<EOF
+No command specified. Valid commands include:
+
+  * web: Run the rails web server
+  * sidekiq: Run the sidekiq worker
+  * setup: Run the one-time Discourse setup
+
+See https://github.com/srid/discourse-docker for details.
+EOF
+else
+    run_cmd $@
+fi

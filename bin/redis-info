@@ -1,11 +1,10 @@
 #!/bin/bash
 # Display $REDIS_URL for running srid/redis
 
+set -e
+. etc/env
+
 ID=$(sudo docker ps | grep srid/redis:2.6 | awk '{print $1}')
+REDIS_PORT=$(sudo docker port $ID 6379 | awk -F: '{print $2}')
 
-HOSTIP=$(/sbin/ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}')
-# IPADDR=$(sudo docker inspect $ID | grep IPAddress | awk '{print $2}' | tr -d ',"')
-PORT=$(sudo docker port $ID 6379 | awk -F: '{print $2}')
-
-# echo "# password: ..."
-echo "redis://user@$HOSTIP:$PORT"
+export REDIS_PROVIDER_URL="redis://user@$HOSTIP:$REDIS_PORT"

@@ -1,21 +1,10 @@
 #!/bin/bash
 
-set -xe
+set -e
+. etc/env
 
-REDIS_PROVIDER_URL=$(bin/redis-info)
-
-# This sources POSTGRES_* env vars.
 source bin/postgresql-info
-
-HOSTIP=$(/sbin/ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}')
-echo $POSTGRES_HOST
-echo $POSTGRES_PORT
-
-DISCOURSE_HOST=${DISCOURSE_HOST:=discourse.example.com}
-
-if [ -e .postmark-api-key ]; then
-    export POSTMARK_API_KEY=$(cat .postmark-api-key)
-fi
+source bin/redis-info
 
 START_DISCOURSE="sudo docker run \
      -e REDIS_PROVIDER_URL=$REDIS_PROVIDER_URL \
@@ -24,15 +13,11 @@ START_DISCOURSE="sudo docker run \
      -e DISCOURSE_HOST=$DISCOURSE_HOST \
      -v $(pwd)/data/discourse-public:/discourse/public"
 
-if [ -z "$1" ]; then
-    echo "Running Discourse server"
-    exec $START_DISCOURSE -p 3000:3000 srid/discourse \
-        /discourse/docker/start.sh 'bundle exec rails s'
-elif [ "$1" = "setup" ]; then
-    echo "Setting up discourse"
-    exec $START_DISCOURSE srid/discourse "/discourse/docker/setup.sh"
-else
-    echo "Running arbitrary command: '$1'"
-    exec $START_DISCOURSE srid/discourse /discourse/docker/start.sh "$@"
+if [ "$1" = "web" ]; then
+    # TODO: use random port on host, and change nginx-start
+    # accordingly.
+    START_DISCOURSE="$START_DISCOURSE -p 3000:3000"
 fi
 
+set -x
+exec $START_DISCOURSE srid/discourse $@

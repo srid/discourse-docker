@@ -1,11 +1,12 @@
 #!/bin/bash
 
 set -e
+. etc/env
 
-ID=$(sudo docker ps | grep srid/nginx:1.3 | awk '{print $1}')
-
-HOSTIP=$(/sbin/ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}')
+ID=$(sudo docker ps | grep srid/discourse-nginx:1.3 | awk '{print $1}')
 PORT=$(sudo docker port $ID 80 | awk -F: '{print $2}')
 
-# echo "# password: ..."
-echo "Discourse is running at http://$HOSTIP:$PORT/"
+echo "Discourse is running at,"
+echo "  http://${DISCOURSE_HOST}"
+echo "  http://$HOSTIP:$PORT/"
+

@@ -1,2 +1,3 @@
 .postmark-api-key
 tmp/*
+.env

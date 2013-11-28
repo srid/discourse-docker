@@ -16,68 +16,67 @@ Get yourself a Ubuntu 13.04 VM (I recommend
 and start getting Discourse up and running in a few minutes:
 
 ```bash
-# install supervisor
+# Install docker
+open http://docs.docker.io/en/latest/installation/ubuntulinux/#ubuntu-raring
+
+# Install postgresql-client for management-tasks
+apt-get install postgresql-client
+
+# Install supervisor, the process manager
 sudo apt-get install python-pip
 sudo pip install supervisor
 
-# create docker images (takes a few minutes)
-make
+git clone https://github.com/srid/discourse-docker.git
+cd discourse-docker
 
-# Configure your discourse site domain in etc/supervisord.conf
-# (DISCOURSE_HOST)
-vi etc/supervisord.conf
+# Pull the docker images (expect this to download a few megabytes)
+make pull  # or `make build` if you want to locally build them
 
-# start supervisor on a separate terminal window
+# Configure your discourse site domain (DISCOURSE_HOST)
+more etc/env
+echo 'export DISCOURSE_HOST=mysite.com:5000' > .env
+# OPTIONAL: email support via postmarkapp.com.
+# later, add the 'From' address to Discourse admin settings.
+echo 'export POSTMARK_API_KEY=<apikey>' >> .env
+
+# Start supervisor on a separate terminal window. This will
+# automatically start the redis and postgresql containers.
 make supervisor
 
-# verify that redis-server and postgres are running.
-# note: bin/sup is alias to `sudo supervisorctl`.
+# Verify that redis-server and postgres are running.
+# Note: bin/sup is alias to `sudo supervisorctl`.
 bin/sup status
 
-# setup discourse database and assets
+# Setup the discourse database and compile static assets.
+# Note: postgres data is at data/postgres; discourse public/
+# (containing uploaded files) directory is mounted from
+# data/discourse-public.
 bin/discourse-start setup
 
-# OPTIONAL: email support via postmarkapp.com.
-# now, add the 'From' address to Discourse admin settings.
-echo '<api key>' > ./.postmark-api-key
-
-# finally, start discourse, sidekiq and nginx
+# Finally, start discourse, sidekiq and nginx
 bin/sup start discourse sidekiq nginx
 
-# discourse is now running; launch the discourse URL.
+# Discourse is now running; launch the discourse site URL.
 make info
 
-# signup for an account, and make yourself an admin:
+# After signing up for an account, make yourself an admin:
 bin/make-admin myusername
 ```
-
-TODO
-----
-
-* Parametrize scripts and document workflow
-  * Try to emulate `docker run -link`
-* Migrate my manually managed Discourse forum.
-  * Global configuration (json? etcd?)
-    * config: discourse version
-    * config: (static) port mappings
-    * config: site domain 
-* Upcoming docker releases:
-  * [#1352: Add support for starting multiple containers from a
-    dockerfile](https://github.com/dotcloud/docker/issues/1352) (Docker
-    0.8)
-  * `docker run -link ...` (no github bug yet)
 
 Migration
 ---------
 
-To migrate an existing Discourse forum:
+To migrate from an existing Discourse forum:
 
 0. Start only postgresql,redis
 
 1. Take a snapshot of the database and import it right after starting
-   the postgresql image.
+   the postgresql container.
    
-2. Run `bin/discourse-start setup`. If assets creation fails, try
-   re-running it using `bin/discourse-start "bundle exec rake
+2. Run `bin/discourse-start setup`. If the assets creation step fails,
+   try re-running it using `bin/discourse-start "bundle exec rake
    assets:precompile"`.
+   
+3. Import public/uploads directory into data/discourse-public/uploads
 
+4. Start everything: bin/sup start all

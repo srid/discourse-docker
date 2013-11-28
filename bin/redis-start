@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+. etc/env
+
+set -x
+exec sudo docker run -p 6379 srid/redis:2.6

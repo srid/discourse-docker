@@ -10,14 +10,11 @@ if [ -z "$USERNAME" ]; then
     exit 1
 fi
 
-ID=$(sudo docker ps | grep srid/postgresql:9.1 | awk '{print $1}')
-
-IPADDR=$(sudo docker inspect $ID | grep IPAddress | awk '{print $2}' | tr -d ',"')
-PORT=$(sudo docker port $ID 5432 | awk -F: '{print $2}')
+. bin/postgresql-info
 
 export PGPASSWORD=postgres
-CMD="psql -p $PORT -U root -h $IPADDR -d postgres"
+# CMD="psql -p $POSTGRES_PORT -U root -h $POSTGRES_HOST -d postgres"
 
 set -x
-echo UPDATE users SET admin = true WHERE username = \'$USERNAME\'\; | $CMD
+echo UPDATE users SET admin = true WHERE username = \'$USERNAME\'\; | $POSTGRES_CLI
 
