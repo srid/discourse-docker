@@ -7,7 +7,9 @@ set -e
 ID=$(sudo docker ps | grep srid/postgresql:9.1 | awk '{print $1}')
 
 export POSTGRES_HOST=$HOSTIP
-export POSTGRES_PORT=$(sudo docker port $ID 5432)
+export POSTGRES_PORT=$(sudo docker port $ID 5432 | awk -F: '{print $2}')
 export POSTGRES_PASS="postgres"
 
 export POSTGRES_CLI="psql -p $POSTGRES_PORT -U root -h $HOSTIP -d postgres"
+
+# echo $POSTGRES_CLI
