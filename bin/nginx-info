@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+set -o pipefail
 . etc/env
 
 ID=$(sudo docker ps | grep srid/discourse-nginx:1.3 | awk '{print $1}')

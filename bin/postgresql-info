@@ -2,6 +2,7 @@
 # Display psql command line to connect to running postgres
 
 set -e
+set -o pipefail
 . etc/env
 
 ID=$(sudo docker ps | grep srid/postgresql:9.1 | awk '{print $1}')
