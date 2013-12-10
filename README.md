@@ -20,7 +20,7 @@ and start getting Discourse up and running in a few minutes:
 open http://docs.docker.io/en/latest/installation/ubuntulinux/#ubuntu-raring
 
 # Install postgresql-client for management-tasks
-apt-get install postgresql-client
+sudo apt-get install postgresql-client
 
 # Install supervisor, the process manager
 sudo apt-get install python-pip
