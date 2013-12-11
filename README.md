@@ -63,6 +63,21 @@ make info
 bin/make-admin myusername
 ```
 
+Upgrading to newer Discourse versions
+-----
+
+1. Set `DISCOURSE_VERSION` in discourse/Dockerfile to the appropriate version
+
+2. Rebuild the images using `make build`
+
+3. Stop supervisord, clean up running docker containers, and run `make supervisord`
+
+4. Run `bin/discourse-start setup` (this will run rake db:migrate)
+
+5. Run `bin/discourse-start "bundle exec rake assets:precompile"`
+
+6. Start discourse and the rest: `bin/sup start all`
+
 Migration
 ---------
 
