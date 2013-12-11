@@ -4,6 +4,7 @@ set -e
 . etc/env
 
 set -x
-exec sudo docker run -p 5432 \
+exec sudo docker run -name=discourse-docker-postgresql \
+    -p 5432 \
     -v $(pwd)/data/postgres:/var/lib/postgresql \
     srid/postgresql:9.1

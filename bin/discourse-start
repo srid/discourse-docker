@@ -16,7 +16,11 @@ START_DISCOURSE="sudo docker run \
 if [ "$1" = "web" ]; then
     # TODO: use random port on host, and change nginx-start
     # accordingly.
-    START_DISCOURSE="$START_DISCOURSE -p 3000:3000"
+    START_DISCOURSE="$START_DISCOURSE -p 3000:3000 -name discourse-docker-web"
+fi
+
+if [ "$1" = "sidekiq" ]; then
+    START_DISCOURSE="$START_DISCOURSE -name discourse-docker-sidekiq"
 fi
 
 set -x
