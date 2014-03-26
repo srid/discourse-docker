@@ -5,7 +5,10 @@
 FROM ubuntu:12.04
 MAINTAINER srid
 
+# TODO: want to upgrade to 0.9.8.11, but database.yml.production-sample no
+# longer exists?
 ENV DISCOURSE_VERSION 0.9.7.6
+
 ENV RAILS_ENV production
 
 ENV LANGUAGE en_US.UTF-8

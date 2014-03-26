@@ -3,8 +3,9 @@
 
 set -ex
 
+sed 's/main$/main universe/' -i /etc/apt/sources.list
 apt-get -qy update
-apt-get -qy install git 
+apt-get -qy install git
 
 # Get discourse stable tag
 git clone --depth 1 https://github.com/discourse/discourse.git
@@ -16,8 +17,7 @@ git checkout v$DISCOURSE_VERSION
 rm -rf .git
 
 # https://bugs.launchpad.net/ubuntu/+source/lxc/+bug/813398
-apt-get -qy install language-pack-en 
-
+apt-get -qy install language-pack-en
 locale-gen en_US.UTF-8
 dpkg-reconfigure locales
 
@@ -25,8 +25,6 @@ dpkg-reconfigure locales
 # https://github.com/discourse/discourse/blob/master/docs/INSTALL-ubuntu.md
 #
 
-echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
-apt-get -qy update
 apt-get -qy install build-essential libssl-dev libyaml-dev git libtool \
     libxslt-dev libxml2-dev libpq-dev gawk curl pngcrush imagemagick \
     python-software-properties
@@ -35,7 +33,7 @@ apt-get -qy install build-essential libssl-dev libyaml-dev git libtool \
 #
 
 # Install Ruby 2.0.0 (not bothering to use RVM)
-add-apt-repository ppa:brightbox/ruby-ng-experimental 
+add-apt-repository ppa:brightbox/ruby-ng-experimental
 apt-get -qy update
 apt-get -qy install ruby2.0 ruby2.0-dev
 
@@ -44,7 +42,7 @@ gem install bundler
 
 # Add postmark support for sending email, and update Gemfile.lock
 echo "gem 'postmark-rails', '~> 0.5.2'" >> /discourse/Gemfile
-bundle install 
+bundle install
 
 bundle install --deployment --without test
 
